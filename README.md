@@ -17,7 +17,7 @@ spring.datasource.username=<db-username>
 spring.datasource.password=<db-password>
 
 
-Ejecutar api
+Ejecutar API
 
     >> cd <base-path>/backend
 
