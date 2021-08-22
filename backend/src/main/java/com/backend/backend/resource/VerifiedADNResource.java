@@ -39,13 +39,20 @@ public class VerifiedADNResource {
 
         // Check number of rows
         if (idList.size() != 6) throw new InvalidSequenceException("6 rows are required. Got " + idList.size());
+        List<String> tempRow = new ArrayList<String>();
 
+        List<List<String>> formattedList = new ArrayList<List<String>>();
         for (String row : idList) {
             if (row.length() != 6) throw new InvalidSequenceException("6 columns are required for each row");
+            tempRow = Arrays.asList(row.split(""));
+            for (String colValue : tempRow) {
+                if (!colValue.equals("A") && !colValue.equals("C") && !colValue.equals("G") && !colValue.equals("T"))
+                    throw new InvalidSequenceException("Invalid character. Got " + colValue);
+            }
+            formattedList.add(tempRow);
         }
 
-        int[][] board = {{1,2,3,4},{1,2,3,4},{1,2,3,4},{1,2,3,4}};
-        Boolean correct = checkWin(board);
+        Boolean correct = checkWin(formattedList);
 
         VerifiedADN newVerifiedADN = new VerifiedADN();
         newVerifiedADN.setId(id);
@@ -61,39 +68,37 @@ public class VerifiedADNResource {
         return new ResponseEntity<>(statistics, HttpStatus.ACCEPTED);
     }
 
-    public static Boolean checkWin(int[][] board) {
-        final int HEIGHT = board.length;
-        final int WIDTH = board[0].length;
-        final int EMPTY_SLOT = 0;
+    public static Boolean checkWin(List<List<String>> board) {
+        final int HEIGHT = board.size();
+        final int WIDTH = board.get(0).size();
+
         for (int r = 0; r < HEIGHT; r++) { // iterate rows, bottom to top
             for (int c = 0; c < WIDTH; c++) { // iterate columns, left to right
-                int player = board[r][c];
-                if (player == EMPTY_SLOT)
-                    continue; // don't check empty slots
-    
+                String base = board.get(r).get(c);
                 if (c + 3 < WIDTH &&
-                    player == board[r][c+1] && // look right
-                    player == board[r][c+2] &&
-                    player == board[r][c+3])
-                    return true;
+                    base.equals(board.get(r).get(c+1)) && // look right
+                    base.equals(board.get(r).get(c+2)) &&
+                    base.equals(board.get(r).get(c+3)))
+                    return false;
                 if (r + 3 < HEIGHT) {
-                    if (player == board[r+1][c] && // look up
-                        player == board[r+2][c] &&
-                        player == board[r+3][c])
-                        return true;
+                    if (base.equals(board.get(r+1).get(c)) && // look up
+                        base.equals(board.get(r+2).get(c)) &&
+                        base.equals(board.get(r+3).get(c)))
+                        return false;
                     if (c + 3 < WIDTH &&
-                        player == board[r+1][c+1] && // look up & right
-                        player == board[r+2][c+2] &&
-                        player == board[r+3][c+3])
-                        return true;
+                        base.equals(board.get(r+1).get(c+1)) && // look up & right
+                        base.equals(board.get(r+2).get(c+2)) &&
+                        base.equals(board.get(r+3).get(c+3)))
+                        return false;
                     if (c - 3 >= 0 &&
-                        player == board[r+1][c-1] && // look up & left
-                        player == board[r+2][c-2] &&
-                        player == board[r+3][c-3])
-                        return true;
+                        base.equals(board.get(r+1).get(c+1)) && // look up & left
+                        base.equals(board.get(r+2).get(c+2)) &&
+                        base.equals(board.get(r+3).get(c+3)))
+                        return false;
                 }
             }
         }
-        return false; // no winner found
+
+        return true; // no winner found
     }
 }
