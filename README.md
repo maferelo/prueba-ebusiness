@@ -1,7 +1,7 @@
 # prueba-ebusiness
 Prueba técnica caso de estudio - ebusiness
 
-El proyecto requiere Java SE 11 (LTS), Node.js 14, Angular 12 y PostgreSQL 13.
+El proyecto requiere Java SE 11 (LTS), Node.js 14, Angular 12, PostgreSQL 13 y Maven 3.
 
 
 Obtener código
@@ -29,3 +29,7 @@ Ejecutar frontend
 
 
 La interfaz se encuentra en http://localhost:4200/ y la API en http://localhost:8080/
+
+Compilar con 
+
+    >> mvn clean compile assembly:single
