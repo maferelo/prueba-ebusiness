@@ -33,3 +33,4 @@ La interfaz se encuentra en http://localhost:4200/ y la API en http://localhost:
 Compilar con 
 
     >> mvn clean compile assembly:single
+    >> ng build frontend
