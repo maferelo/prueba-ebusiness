@@ -42,6 +42,14 @@ To list checked sequences go to http://localhost:8080/verifiedADN/all
 
 returns List<verifiedADN>.
 
+To get statistics http://localhost:8080/verifiedADN/statistics
+
+{
+    "count_incorrect_dna": "0",
+    "count_correct_dna": "13",
+    "ratio": "1.0"
+} 
+
 
 Compile with
 

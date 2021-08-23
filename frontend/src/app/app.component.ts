@@ -4,6 +4,8 @@ import { Employee } from './employee';
 import { EmployeeService } from './employee.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { Sequence } from './sequence';
+import { SequenceBackend } from './sequenceBackend';
 
 @Component({
   selector: 'app-root',
@@ -14,13 +16,17 @@ export class AppComponent implements OnInit {
   public employees: Employee[];
   public editEmployee: Employee;
   public deleteEmployee: Employee;
+  public sequence: Sequence;
+  public sequences: SequenceBackend[];
 
   constructor(private employeeService: EmployeeService){
     this.employees = [];
+    this.sequences = [];
   }
 
   ngOnInit() {
     this.getEmployees();
+    this.getSequences();
   }
 
   public getEmployees(): void {
@@ -31,6 +37,35 @@ export class AppComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
+      }
+    );
+  }
+
+  public getSequences(): void {
+    this.employeeService.getSequences().subscribe(
+      (response: SequenceBackend[]) => {
+        this.sequences = response;
+        console.log(this.sequences);
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  public onAddSequence(addForm: NgForm): void {
+    document.getElementById('add-sequence-form').click();
+    this.employeeService.addSequence(addForm.value).subscribe(
+      (response: SequenceBackend) => {
+        alert(response);
+        console.log(response);
+        this.getSequences();
+        addForm.reset();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.error.message);
+        console.log(error.error.message);
+        addForm.reset();
       }
     );
   }
@@ -98,7 +133,7 @@ export class AppComponent implements OnInit {
     button.style.display = 'none';
     button.setAttribute('data-toggle', 'modal');
     if (mode === 'add') {
-      button.setAttribute('data-target', '#addEmployeeModal');
+      button.setAttribute('data-target', '#addSequenceModal');
     }
     if (mode === 'edit') {
       this.editEmployee = employee;

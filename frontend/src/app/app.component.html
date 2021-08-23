@@ -1,46 +1,56 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" style="color:white;">Employee Manager</a>
+  <a class="navbar-brand" style="color:white;">Prueba técnica</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
   <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarColor02">
      <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-           <a class="nav-link" (click)="onOpenModal(null, 'add')">Add Employee <span class="sr-only">(current)</span></a>
+           <a class="nav-link" (click)="onOpenModal(null, 'add')">Verificar ADN <span class="sr-only">(current)</span></a>
         </li>
      </ul>
-     <form class="form-inline my-2 my-lg-0">
-        <input type="search" (ngModelChange)="searchEmployees(key.value)" #key="ngModel" ngModel
-         name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search employees..." required>
-     </form>
   </div>
 </nav>
 <div class="container" id="main-container">
-<div class="row">
-  <div *ngFor="let employee of employees" class="col-md-6 col-xl-3">
-     <div class="card m-b-30">
-        <div class="card-body row">
-           <div class="col-6">
-              <a href=""><img src="{{employee?.imageUrl}}" alt="" class="img-fluid rounded-circle w-60"></a>
-           </div>
-           <div class="col-6 card-title align-self-center mb-0">
-              <h5>{{employee?.name}}</h5>
-              <p class="m-0">{{employee?.jobTitle}}</p>
-           </div>
+   <div class="row">
+      <div *ngFor="let sequence of sequences" class="col-md-6 col-xl-3">
+         <div class="card m-b-30">
+            <div class="card-body row">
+               <div class="col-6 card-title align-self-center mb-0">
+                  <h5>{{sequence?.id}}</h5>
+                  <p class="m-0">{{sequence?.correct}}</p>
+               </div>
+            </div>
+         </div>
+      </div>
+    </div>
+
+<!-- Add Sequence Modal -->
+<div class="modal fade" id="addSequenceModal" tabindex="-1" role="dialog" aria-labelledby="addSequenceModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="addSequenceModalLabel">Add Sequence</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
         </div>
-        <ul class="list-group list-group-flush">
-           <li class="list-group-item"><i class="fa fa-envelope float-right"></i>{{employee?.email}}</li>
-           <li class="list-group-item"><i class="fa fa-phone float-right"></i>Phone : {{employee?.phone}}</li>
-        </ul>
-        <div class="card-body">
-           <div class="float-right btn-group btn-group-sm">
-              <a (click)="onOpenModal(employee, 'edit')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
-              <a (click)="onOpenModal(employee, 'delete')" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
+        <div class="modal-body">
+           <form #addForm="ngForm" (ngSubmit)="onAddSequence(addForm)">
+           <div class="form-group">
+              <label for="id">Sequence</label>
+              <input type="text" ngModel name="id" class="form-control" id="id" placeholder='"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"' required>
            </div>
+           <div class="modal-footer">
+              <button type="button" id="add-sequence-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary" >Verificar</button>
+           </div>
+           </form>
         </div>
      </div>
-  </div>
-</div>
+   </div>
+   </div>
+
 
 <!-- Add Employee Modal -->
 <div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
@@ -151,9 +161,9 @@
 </div>
 
 <!-- Notification for no employees -->
-<div *ngIf="employees?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+<div *ngIf="sequences?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
 <div class="alert alert-info" role="alert">
-  <h4 class="alert-heading">NO EMPLOYEES!</h4>
-  <p>No Employees were found.</p>
+   <h4 class="alert-heading">NO SEQUENCES</h4>
+   <p>No Sequences were found.</p>
 </div>
 </div>
