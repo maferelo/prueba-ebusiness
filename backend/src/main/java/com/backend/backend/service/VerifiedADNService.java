@@ -29,7 +29,7 @@ public class VerifiedADNService {
 
     public Map<String, String> findVerifiedADNStatistics() {
         int all = verifiedADNRepo.findAll().size();
-        int correct = verifiedADNRepo.findAll().size();
+        int correct = verifiedADNRepo.findByCorrect(true).size();
         int incorrect = all - correct;
         float ratio = (float) correct / all;
         HashMap<String, String> statistics = new HashMap<>();
