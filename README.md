@@ -20,6 +20,9 @@ spring.datasource.password=<db-password>
 Run API
 
     >> cd <base-path>/backend
+    run
+
+or execute: backend-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 
 Run frontend
